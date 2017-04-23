@@ -1,0 +1,108 @@
+@charset "utf-8"
+
+@import "test" // 导入less文件
+@import "test.css" // 导入css文件
+
+变量＋混合＋嵌套＋计算（常用）
+
+// 编译器 koala
+
+// 不会被编译的注释
+/* 注释 会被编译的注释*/
+
+// 变量，@开头 eg：@变量名：值
+@test_width:300px;
+
+.box{
+	width:@test_width;
+	height:@test_width;
+	background-color:yellow;
+	.border; // 混合（将此类中的属性合并到box类）
+}
+
+// 混合
+.border{
+	border:solid 5px pink
+}
+
+//混合－可带参数
+.border_02(@border_width){
+	border:solid yellow @border_width;
+}
+
+.test_hunhe{
+	.border_02(30px);
+}
+
+
+// 混合－默认值
+.border_radius(@radius:5px){
+	-webkit-border-radius:@radius
+	-moz-border-radius:@radius;
+	-border-radius:@radius;
+}
+
+.radius_test{
+	width:@test_width;
+	height:200px;
+	.border_radius();
+}
+
+// 匹配模式
+.position(r){
+	position:relative;
+}
+.position(a){
+	position:absolute;
+}
+.position(f){
+	position:fixed;
+}
+.test{
+	position(f);
+}
+
+
+//运算 ＋ － ＊ ／ （px,颜色）
+.test{
+	width:20px +10-1 * 5
+}
+
+// 嵌套
+.test{
+	a{
+		color:red;
+		// &代表上一层选择器 即目前的a标签
+		&:hover{
+			color:blue;
+		}
+	}
+	li{
+		width:100px;
+	}
+	img{
+		height:200px;
+	}
+}
+
+
+// arguments 变量
+.border_arg(@w:30px,@c:red,@xx:solid){
+	border:@arguments;	
+}
+
+.test_arguments{
+	.border_arg(40px);
+}
+
+// 避免编译
+.test{
+	width:~'calc(270px-30px)';
+}
+
+//!important (类里面所有属性加上！important)
+.test{
+	.border_03() !important;
+}
+
+
